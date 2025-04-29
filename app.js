@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const { connection } = require('./config/db'); // Assuming the database connection is in config/db.js
 
 // Middleware
 app.use(express.json());
@@ -13,6 +14,16 @@ app.get('/', (req, res) => {
 app.post('/data', (req, res) => {
     const data = req.body;
     res.json({ message: 'Data received', data });
+});
+
+app.get('/users', (req, res) => {
+    db.query('SELECT * FROM users', (err, results) => {
+        if (err) {
+            res.status(500).send('Error fetching users');
+        } else {
+            res.json(results);
+        }
+    });
 });
 
 // Export the app
