@@ -5,11 +5,18 @@ const path = require('path');
 const { connection } = require('./config/db'); // Assuming the database connection is in config/db.js
 const apiRoutes = require('./routes/api');
 
-// Middleware
+const allowedOrigins = ['http://localhost:5173', 'https://codenest.ro'];
+
 app.use(cors({
-    origin: 'http://localhost:5173/', // Allow requests only from this origin
-    methods: ['GET', 'POST'],        // Specify allowed HTTP methods
-    credentials: true                // Include cookies or authorization headers (if needed)
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true); // Allow request
+        } else {
+            callback(new Error('Not allowed by CORS')); // Reject request
+        }
+    },
+    methods: ['GET', 'POST'], // Specify allowed HTTP methods
+    credentials: true         // Include cookies or authorization headers
 }));
 
 app.use(express.json());
