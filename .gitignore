@@ -17,7 +17,7 @@ Thumbs.db
 
 # Ignore build files
 dist/
-build/
+# build/
 
 # Ignore temporary files
 *.tmp
