@@ -26,6 +26,16 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.get("/login", (req, res) => {
+    const token = req.cookies.token; // Assuming you're using cookies for authentication
+
+    if (token) {
+        return res.redirect("/dashboard"); // Redirect logged-in users
+    }
+
+    res.sendFile("login.html", { root: "./public" }); // Serve the login page
+});
+
 
 // Token Authentication Middleware
 const authenticateToken = (req, res, next) => {
