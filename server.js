@@ -1,16 +1,22 @@
-const dotenv = require('dotenv'); // Import dotenv
-const app = require('./app'); // Import the app
-const http = require('http'); // Optional: Use HTTP for creating a server
+import express from 'express';
+import dotenv from 'dotenv';
+import login from './controllers/userController.js'
 
-// Load environment variables from .env file
 dotenv.config();
+const app = express();
 
-// Use environment variables for PORT and HOST
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || '127.0.0.1'; // Default to localhost if not specified
-
-// Create and start the server
-const server = http.createServer(app);
-server.listen(PORT, HOST, () => {
-    console.log(`Server running at http://${HOST}:${PORT}`);
+app.get('/users', async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT * FROM users');
+        res.json(rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Database query failed');
+    }
 });
+
+const PORT = process.env.PORT;
+
+app.listen(8080, () => {
+    console.log(`server is running on port ${PORT}`)
+})
