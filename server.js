@@ -12,6 +12,10 @@ import authenticateToken from './middleware/authMiddleware.js'; // Import authen
 // Initialize Express application
 const app = express();
 
+// Serve React frontend
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Load environment variables
 dotenv.config();
 
@@ -30,13 +34,8 @@ app.use(cors({
 }));
 
 // Define routes
-app.use('/api/login', login);
-app.use('/api/products', authenticateToken, productRoutes);
-
-// Serve React frontend
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+app.use('/login', login);
+app.use('/products', authenticateToken, productRoutes);
 app.use(express.static(path.join(__dirname, 'client')));
 
 // Ensure React handles non-API routes

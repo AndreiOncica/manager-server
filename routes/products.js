@@ -1,10 +1,10 @@
 import express from 'express';
-import db from '../config/db.js';
-import authenticateToken from '../middleware/authMiddleware.js';
-import {getProducts} from '../controllers/productsController.js'
+import { getProducts, getCategories, getBrands } from '../controllers/productsController.js'
 
 const router = express.Router();
 
-router.get('/', authenticateToken, getProducts);
+router.get('/', getProducts);
+router.get('/categories', getCategories);
+router.get('/brands', getBrands)
 
 export default router;
